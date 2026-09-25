@@ -48,6 +48,9 @@ border-radius:10px;padding:9px 30px 9px 11px;font:inherit;font-size:13px;font-we
 background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%239aa4b2' stroke-width='2'><path d='M2 4l4 4 4-4'/></svg>");
 background-repeat:no-repeat;background-position:right 11px center}
   select:hover{background-color:var(--field-hover)}
+  /* the native dropdown list ignores the translucent field colour; give it a solid dark background so the light text stays readable */
+  select{color-scheme:dark}
+  select option{background:var(--panel-solid);color:var(--txt)}
   .duo{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px}
   .duo .op{padding-bottom:9px;color:var(--faint);font-weight:700;font-size:15px}
 
@@ -222,12 +225,11 @@ const map = new maplibregl.Map({
   container:'map',
   style:{version:8,
 glyphs:'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
-sources:{carto:{type:'raster',
-  tiles:['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
-         'https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png'],
-  tileSize:256, attribution:'© OpenStreetMap © CARTO'}},
+sources:{pdok:{type:'raster',
+  tiles:['https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png'],
+  tileSize:256, maxzoom:19, attribution:'Kaartgegevens © <a href="https://www.kadaster.nl">Kadaster</a> (PDOK BRT-Achtergrondkaart grijs)'}},
 layers:[{id:'bg',type:'background',paint:{'background-color':'#e9ecf0'}},
-        {id:'carto',type:'raster',source:'carto',paint:{'raster-opacity':.92,'raster-saturation':-0.15}}]},
+        {id:'pdok',type:'raster',source:'pdok',paint:{'raster-opacity':.92}}]},
   center:[4.283,51.922], zoom:10.2, attributionControl:{compact:true}
 });
 const NET_BOUNDS=[[3.9636,51.846],[4.6022,51.9977]];
